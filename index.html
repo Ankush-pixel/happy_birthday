@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Happy Birthday Ankureet! 🥳</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-color: #ff6347; /* A vibrant tomato red */
+        --secondary-color: #ffb6c1; /* Light pink */
+        --text-color: #333;
+        --background-color: #f0f8ff; /* Alice blue */
+      }
+
+      /* Default Light Theme */
+      body.light-theme {
+        --background-color: #f0f8ff;
+        --text-color: #333;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      /* Dark Theme */
+      body.dark-theme {
+        --background-color: #1a202c;
+        --text-color: #e2e8f0;
+        background-color: var(--background-color);
+        color: var(--text-color);
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.5s ease;
+        text-align: center;
+        overflow-x: hidden; /* Prevent horizontal scroll */
+        position: relative; /* For balloon animation */
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+        z-index: 2; /* Ensure content is above the balloons */
+      }
+
+      h1,
+      h2 {
+        font-family: "Pacifico", cursive;
+        color: var(--primary-color);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        font-size: 3rem;
+        margin-bottom: 0.5em;
+      }
+
+      h2 {
+        font-size: 2rem;
+        margin-top: 1.5em;
+      }
+
+      .hero-title {
+        animation: bounceIn 1s ease-in-out;
+      }
+
+      .timer-container {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+        padding: 20px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+
+      .timer-box {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 10px 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .timer-box:hover {
+        transform: translateY(-5px) scale(1.05);
+      }
+
+      .timer-box h3 {
+        margin: 0;
+        font-size: 2.5rem;
+      }
+
+      .timer-box span {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+      }
+
+      .countdown-message {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        font-weight: bold;
+      }
+
+      .progress-bar-container {
+        width: 80%;
+        height: 10px;
+        background-color: #e0e0e0;
+        border-radius: 5px;
+        margin: 20px auto;
+        overflow: hidden;
+      }
+
+      #progressBar {
+        height: 100%;
+        background-color: var(--primary-color);
+        width: 0%;
+        transition: width 1s linear;
+      }
+
+      #birthdayBtn {
+        background-color: var(--primary-color);
+        color: white;
+        font-size: 1.5rem;
+        padding: 15px 30px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(255, 99, 71, 0.4);
+        margin-top: 30px;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      #birthdayBtn:hover {
+        background-color: #e5533d;
+        transform: scale(1.1);
+      }
+
+      .wishlist-container,
+      .messages-container {
+        margin-top: 40px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      }
+
+      .wishlist-container ul,
+      .messages-container ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      .wishlist-container li {
+        padding: 10px;
+        border-bottom: 1px solid #ccc;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* --- New styles for messages and modal --- */
+      .message-card {
+        background-color: var(--secondary-color);
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .delete-btn {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.8rem;
+      }
+
+      /* Modal styling */
+      .modal {
+        position: fixed;
+        z-index: 10;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        max-width: 500px;
+        animation: zoomIn 0.5s ease-out;
+      }
+
+      .modal-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      .modal-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+
+      .modal-buttons button:hover {
+        transform: scale(1.05);
+      }
+
+      #yesBtn {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      #noBtn {
+        background-color: #f44336;
+        color: white;
+      }
+
+      /* Animation keyframes */
+      @keyframes bounceIn {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes zoomIn {
+        from {
+          transform: scale(0.8);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      /* Balloon animation canvas */
+      #confetti {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Theme buttons */
+      .theme-buttons {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .theme-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+        cursor: pointer;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        transition: border-color 0.3s;
+      }
+
+      .theme-btn:hover {
+        border-color: #fff;
+      }
+
+      .light-theme-btn {
+        background-color: #f0f8ff;
+      }
+      .dark-theme-btn {
+        background-color: #1a202c;
+      }
+    </style>
+  </head>
+  <body class="light-theme">
+    <canvas id="confetti"></canvas>
+
+    <div class="theme-buttons">
+      <button class="theme-btn light-theme-btn" data-theme="light"></button>
+      <button class="theme-btn dark-theme-btn" data-theme="dark"></button>
+    </div>
+
+    <div class="container">
+      <h1 id="mainTitle" class="hero-title hidden">Happy Birthday Ankureet!</h1>
+      <p class="countdown-message" id="message">The countdown has begun!</p>
+
+      <div class="timer-container">
+        <div class="timer-box">
+          <h3 id="days">00</h3>
+          <span>Days</span>
+        </div>
+        <div class="timer-box">
+          <h3 id="hrs">00</h3>
+          <span>Hours</span>
+        </div>
+        <div class="timer-box">
+          <h3 id="mins">00</h3>
+          <span>Minutes</span>
+        </div>
+        <div class="timer-box">
+          <h3 id="secs">00</h3>
+          <span>Seconds</span>
+        </div>
+      </div>
+
+      <div class="progress-bar-container">
+        <div id="progressBar"></div>
+      </div>
+
+      <button id="birthdayBtn" class="hidden">Click Here to Celebrate!</button>
+
+      <div id="wishList" class="hidden wishlist-container">
+        <h2>Ankureet's Wish List</h2>
+        <ul></ul>
+      </div>
+
+      <div id="messagesSection" class="hidden messages-container">
+        <h2>Wishes from Friends & Family 🎉</h2>
+        <div id="messagesDisplay"></div>
+      </div>
+    </div>
+
+    <!-- The Modal for the book -->
+    <!-- <div id="bookModal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Ready to see your special book?</h3>
+            <p>It's filled with wonderful memories!</p>
+            <div class="modal-buttons">
+                <button id="yesBtn">Yes!</button>
+                <button id="noBtn">Maybe later</button>
+            </div>
+        </div>
+    </div> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script>
+      const birthdayDate = new Date("2025-08-27T00:00:00");
+      const birthdayBtn = document.getElementById("birthdayBtn");
+      const message = document.getElementById("message");
+      const todayDateElem = document.getElementById("todayDate");
+      const liveTimeElem = document.getElementById("liveTime");
+
+      const countdownBoxes = {
+        days: document.getElementById("days"),
+        hrs: document.getElementById("hrs"),
+        mins: document.getElementById("mins"),
+        secs: document.getElementById("secs"),
+      };
+      const progressBar = document.getElementById("progressBar");
+      const wishListSection = document.getElementById("wishList");
+      const messagesSection = document.getElementById("messagesSection");
+      const messagesDisplay = document.getElementById("messagesDisplay");
+      const mainTitle = document.getElementById("mainTitle");
+      // const bookModal = document.getElementById("bookModal");
+      // const yesBtn = document.getElementById("yesBtn");
+      // const noBtn = document.getElementById("noBtn");
+
+      let countdownInterval;
+
+      // Set up wish list and messages (for demonstration)
+      const wishListItems = [
+        "A new book from my favorite author",
+        "A fancy coffee maker",
+        "A surprise adventure trip!",
+      ];
+
+      // This is a sample message array to demonstrate the functionality.
+      let savedMessages = [
+        {
+          id: 1,
+          sender: "Mom",
+          text: "Happy early birthday, my dear Ankureet! Can't wait to celebrate with you!",
+        },
+        {
+          id: 2,
+          sender: "Friend",
+          text: "Wishing you an amazing year ahead! 🎉",
+        },
+      ];
+
+      function renderWishList() {
+        const ul = wishListSection.querySelector("ul");
+        ul.innerHTML = wishListItems.map((item) => `<li>${item}</li>`).join("");
+      }
+
+      function renderMessages() {
+        const messages = savedMessages;
+
+        messagesDisplay.innerHTML = messages
+          .map(
+            (msg) => `
+                <div class="message-card">
+                    <span><strong>${msg.sender}:</strong> ${msg.text}</span>
+                    <button class="delete-btn" data-id="${msg.id}">Delete</button>
+                </div>
+            `
+          )
+          .join("");
+
+        document.querySelectorAll(".delete-btn").forEach((button) => {
+          button.addEventListener("click", (event) => {
+            const messageId = event.target.dataset.id;
+            deleteMessage(messageId);
+          });
+        });
+      }
+
+      function deleteMessage(idToDelete) {
+        savedMessages = savedMessages.filter((msg) => msg.id != idToDelete);
+        renderMessages();
+        console.log(`Message with ID ${idToDelete} has been deleted.`);
+      }
+
+      // Function to linearly interpolate between two colors
+      function interpolateColor(color1, color2, factor) {
+        const result = color1.slice();
+        for (let i = 0; i < 3; i++) {
+          result[i] = Math.round(result[i] + factor * (color2[i] - color1[i]));
+        }
+        return `rgb(${result[0]}, ${result[1]}, ${result[2]})`;
+      }
+
+      // Convert hex to RGB
+      function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return [r, g, b];
+      }
+
+      const startColor = hexToRgb("#f0f8ff");
+      const endColor = hexToRgb("#ff6347");
+
+      function updateCountdownAndColor() {
+        const now = new Date();
+        const timeLeft = birthdayDate - now;
+
+        if (timeLeft > 0) {
+          const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+          const hrs = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
+          const mins = Math.floor((timeLeft / 1000 / 60) % 60);
+          const secs = Math.floor((timeLeft / 1000) % 60);
+          countdownBoxes.days.textContent = days;
+          countdownBoxes.hrs.textContent = hrs;
+          countdownBoxes.mins.textContent = mins;
+          countdownBoxes.secs.textContent = secs;
+
+          birthdayBtn.classList.add("hidden");
+          wishListSection.classList.add("hidden");
+          messagesSection.classList.add("hidden");
+          message.classList.remove("hidden");
+
+          const totalDuration =
+            birthdayDate.getTime() -
+            new Date(
+              birthdayDate.getFullYear(),
+              birthdayDate.getMonth() - 1,
+              birthdayDate.getDate()
+            ).getTime();
+          const timeRemaining = birthdayDate - now;
+          const progressFactor = 1 - timeRemaining / totalDuration;
+          const clampedFactor = Math.min(1, Math.max(0, progressFactor));
+          const newColor = interpolateColor(
+            startColor,
+            endColor,
+            clampedFactor
+          );
+          document.body.style.backgroundColor = newColor;
+
+          const totalTime = birthdayDate - new Date("2025-01-01T00:00:00");
+          const timePassed = now - new Date("2025-01-01T00:00:00");
+          const progress = (timePassed / totalTime) * 100;
+          progressBar.style.width = `${progress}%`;
+        } else {
+          mainTitle.textContent = "It's Ankureet's Birthday Today!";
+          countdownBoxes.days.textContent = "🎉";
+          countdownBoxes.hrs.textContent = "🎈";
+          countdownBoxes.mins.textContent = "🎂";
+          countdownBoxes.secs.textContent = "🎁";
+          birthdayBtn.classList.remove("hidden");
+          wishListSection.classList.remove("hidden");
+          messagesSection.classList.remove("hidden");
+          message.classList.add("hidden");
+          mainTitle.classList.remove("hidden");
+          message.classList.remove("hidden");
+          clearInterval(countdownInterval); // Stop the regular countdown
+          setInterval(() => {
+            window.location.href = "wish.html";
+          }, 30000);
+        }
+      }
+
+      function updateClock() {
+        const now = new Date();
+        // This is currently not used, but kept for future use if needed.
+        // liveTimeElem.textContent = "Current Time: " + now.toLocaleTimeString();
+        // todayDateElem.textContent = "Today: " + now.toDateString();
+      }
+
+      function fireConfetti() {
+        const duration = 2 * 1000;
+        const end = Date.now() + duration;
+
+        const interval = setInterval(function () {
+          confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: {
+              y: 0.6,
+            },
+          });
+
+          if (Date.now() > end) clearInterval(interval);
+        }, 250);
+      }
+
+      birthdayBtn.addEventListener("click", () => {
+        fireConfetti();
+        message.classList.remove("hidden");
+
+        setTimeout(() => {
+          bookModal.classList.remove("hidden");
+        }, 2000);
+      });
+
+      // yesBtn.addEventListener("click", () => {
+      //     bookModal.classList.add("hidden");
+      //     window.location.href = "index2.html";
+      // });
+
+      // noBtn.addEventListener("click", () => {
+      //     bookModal.classList.add("hidden");
+      //     console.log("User chose not to see the book.");
+      // });
+
+      document.querySelectorAll(".theme-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const theme = button.dataset.theme;
+          document.body.className = "";
+          document.body.classList.add(theme + "-theme");
+          localStorage.setItem("selectedTheme", theme);
+        });
+      });
+
+      const savedTheme = localStorage.getItem("selectedTheme");
+      if (savedTheme) {
+        document.body.classList.add(savedTheme + "-theme");
+      }
+
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      let balloons = [];
+
+      function createBalloon() {
+        const colors = ["#ff6b6b", "#feca57", "#1dd1a1", "#54a0ff", "#ee5253"];
+        return {
+          x: Math.random() * canvas.width,
+          y: canvas.height + 50,
+          radius: 15 + Math.random() * 10,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          speed: 0.5 + Math.random() * 1.5,
+          wave: Math.random() * Math.PI * 2,
+          waveSpeed: 0.05 + Math.random() * 0.05,
+          stringLength: 30 + Math.random() * 20,
+        };
+      }
+
+      function drawBalloon(balloon) {
+        ctx.beginPath();
+        ctx.arc(balloon.x, balloon.y, balloon.radius, 0, Math.PI * 2);
+        ctx.fillStyle = balloon.color;
+        ctx.fill();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(balloon.x, balloon.y + balloon.radius);
+        ctx.lineTo(balloon.x, balloon.y + balloon.radius + 5);
+        ctx.strokeStyle = balloon.color;
+        ctx.stroke();
+        ctx.closePath();
+        ctx.beginPath();
+        ctx.moveTo(balloon.x, balloon.y + balloon.radius + 5);
+        ctx.lineTo(
+          balloon.x + Math.sin(balloon.wave) * 10,
+          balloon.y + balloon.radius + balloon.stringLength
+        );
+        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.closePath();
+      }
+
+      function animateBalloons() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = 0; i < balloons.length; i++) {
+          const balloon = balloons[i];
+          balloon.y -= balloon.speed;
+          balloon.wave += balloon.waveSpeed;
+          balloon.x += Math.sin(balloon.wave) * 0.5;
+          if (balloon.y < -50) {
+            balloons[i] = createBalloon();
+          }
+          drawBalloon(balloon);
+        }
+        requestAnimationFrame(animateBalloons);
+      }
+
+      function startBalloonAnimation() {
+        for (let i = 0; i < 20; i++) {
+          balloons.push(createBalloon());
+        }
+        animateBalloons();
+      }
+
+      window.onload = function () {
+        updateClock();
+        updateCountdownAndColor();
+        renderWishList();
+        renderMessages();
+        startBalloonAnimation();
+        countdownInterval = setInterval(() => {
+          updateClock();
+          updateCountdownAndColor();
+        }, 1000);
+      };
+    </script>
+  </body>
+</html>

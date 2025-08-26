@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Happy Birthday Ankureet </title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            background: linear-gradient(to bottom right, #ffcee6, #f9ecf4, #ffcee6); /* Even softer, pastel gradient */
+            overflow: hidden;
+            font-family: 'Segoe UI', cursive;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            perspective: 1000px; /* For 3D transformations */
+        }
+
+        .heart {
+            position: absolute;
+            width: 25px; /* Slightly larger hearts */
+            height: 25px;
+            background: #ff69b4;
+            transform: rotate(45deg);
+            animation: fall 5s linear infinite;
+            top: -25px;
+            z-index: 1;
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.6); /* Glow effect */
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #ff69b4;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -12.5px; /* Adjust for larger size */
+            left: 0;
+        }
+
+        .heart::after {
+            left: -12.5px; /* Adjust for larger size */
+            top: 0;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-25px) rotate(0deg) scale(0.8);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(1.2); /* More rotation, slight growth */
+                opacity: 0;
+            }
+        }
+
+        .gift {
+            width: 200px; /* Even larger gift */
+            height: 200px;
+            background: linear-gradient(to bottom right, #ff6b8f, #ff4d6d); /* Gradient gift box */
+            position: relative;
+            cursor: pointer;
+            animation: bounce 2s infinite, pulse 1.5s infinite alternate;
+            border-radius: 25px; /* More rounded */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            z-index: 10;
+            border: 3px solid #fff; /* White border */
+            transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+        }
+
+        .gift:hover {
+            transform: translateY(-25px) scale(1.08) rotate(5deg); /* Lift and rotate on hover */
+        }
+
+        .gift::before {
+            content: '';
+            width: 100%;
+            height: 30px; /* Thicker ribbon */
+            background: #fff;
+            position: absolute;
+            top: 85px; /* Adjust ribbon position */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .gift::after {
+            content: '';
+            width: 30px; /* Thicker ribbon */
+            height: 100%;
+            background: #fff;
+            position: absolute;
+            left: 85px; /* Adjust ribbon position */
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                transform: translateY(-25px) scale(1.06); /* Higher bounce, more scale */
+            }
+        }
+
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.04);
+            }
+        }
+
+        .points {
+            text-align: center;
+            font-size: 1.8rem; /* Even larger font for points */
+            color: #d11d5f; /* Deeper pink */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 700px; /* Wider text area */
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .point {
+            opacity: 0;
+            transition: opacity 1s ease-in, transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Bouncier transition */
+            margin: 20px 0; /* More spacing */
+            font-family: 'Great Vibes', cursive; /* A very elegant, flowing font */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.15); /* Stronger shadow */
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for readability */
+            padding: 10px 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .point.show {
+            opacity: 1;
+            transform: scale(1.15) translateY(-10px); /* More pronounced pop and slight lift */
+        }
+
+        .photos {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            overflow: hidden;
+            display: none;
+            z-index: 2;
+        }
+
+        .photo {
+            position: absolute;
+            width: 150px; /* Even larger photos */
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #fff; /* Thicker white border */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger photo shadows */
+            animation: floatPhoto 15s linear infinite; /* Longer animation for slower float */
+            filter: saturate(1.2); /* Slightly more vibrant photos */
+        }
+
+        @keyframes floatPhoto {
+            0% {
+                top: -200px;
+                opacity: 0;
+                transform: rotateY(0deg) scale(0.7); /* Added Y-axis rotation */
+            }
+            25% {
+                opacity: 1;
+                transform: rotateY(90deg) scale(1.1);
+            }
+            50% {
+                opacity: 1;
+                transform: rotateY(180deg) scale(1);
+            }
+            75% {
+                opacity: 1;
+                transform: rotateY(270deg) scale(1.1);
+            }
+            100% {
+                top: 100vh;
+                opacity: 0;
+                transform: rotateY(360deg) scale(0.7);
+            }
+        }
+
+        .final-text {
+            display: none;
+            text-align: center;
+            font-size: 5rem; /* Massive final text */
+            font-family: 'Dancing Script', cursive;
+            color: #e60073; /* Even more vibrant pink */
+            animation: popIn 2.5s ease forwards; /* Longer, more dramatic pop-in */
+            text-shadow: 4px 4px 8px rgba(0,0,0,0.3), 0 0 20px rgba(255, 255, 255, 0.7); /* Double shadow for glow */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            letter-spacing: 2px; /* Slight letter spacing */
+        }
+
+        @keyframes popIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.1) rotate(-45deg);
+                opacity: 0;
+                filter: blur(10px);
+            }
+            60% {
+                filter: blur(0px);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: absolute;
+            width: 12px; /* Larger confetti */
+            height: 12px;
+            background: #ffcc00;
+            animation: confettiFall 4s linear infinite; /* Faster fall */
+            top: -12px;
+            border-radius: 50%;
+            opacity: 0;
+            filter: brightness(1.2); /* Brighter confetti */
+            transform-origin: center;
+        }
+        .confetti.red { background: #ff4d6d; }
+        .confetti.blue { background: #00bfff; }
+        .confetti.green { background: #66cc66; }
+        .confetti.purple { background: #9932cc; }
+        .confetti.pink { background: #ff69b4; } /* New confetti color */
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg) translateX(0px);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(1080deg) translateX(50px); /* More rotation and horizontal drift */
+                opacity: 0;
+            }
+        }
+
+        /* Sparkle effect (new) */
+        .sparkle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+            animation: sparkleFade 1s forwards;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        @keyframes sparkleFade {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Music control (new) */
+        .music-control {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 200;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        .music-control img {
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        for (let i = 0; i < 50; i++) { // More hearts
+            let heart = document.createElement("div");
+            heart.className = "heart";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = 3 + Math.random() * 6 + "s"; // Wider range for duration
+            heart.style.animationDelay = Math.random() * 2 + "s"; // Staggered start
+            document.body.appendChild(heart);
+        }
+    </script>
+
+    <div id="confetti-container"></div>
+
+    <div class="music-control" id="musicControl">
+        <img id="musicIcon" src="assets/music_on.png" alt="Music On"> </div>
+    <audio id="birthdayMusic" src="assets/images/Happy_Birthday_5.mp3" loop></audio> <div class="gift" id="giftBox"></div>
+
+    <div class="points" id="points">
+        <div class="point">🎈 Happy Birthday, my shining star, Ankureet!</div>
+        <div class="point">💖 Your laughter is the sweetest melody, your smile a vibrant sunrise.</div>
+        <div class="point">🌟 You possess a rare blend of strength, grace, and boundless compassion.</div>
+        <div class="point">🎨 Every moment with you is an adventure, a canvas painted with joy.</div>
+        <div class="point">🎶 Your spirit resonates with kindness, creativity, and an unwavering zest for life.</div>
+        <div class="point">✨ May this year unfold into a masterpiece of dreams fulfilled and new horizons explored.</div>
+        <div class="point">🌸 You're not just a friend; you're family, a cherished sister of the heart.</div>
+        <div class="point">💎 May your special day be sprinkled with magic, wonder, and endless love.</div>
+        <div class="point">🎂 Here's to celebrating the incredible person you are, today and always!</div>
+        <div class="point">Sending you galactic hugs and a universe of happiness, my dear!</div>
+    </div>
+
+    <h1 class="final-text" id="finalMessage">Absolutely the BEST Birthday Ankureet! 🎉</h1>
+
+    <div class="photos" id="photos">
+        <img src="assets/images/Screenshot 2025-08-22 122217.png" class="photo" style="left: 5vw; animation-delay: 0s;">
+        <img src="assets/images/Screenshot 2025-07-29 151909.png" class="photo" style="left: 20vw; animation-delay: 2s;">
+        <img src="assets/images/Screenshot 2025-08-22 122014.png" class="photo" style="left: 40vw; animation-delay: 4s;">
+        <img src="assets/images/Screenshot 2025-08-22 122059.png" class="photo" style="left: 60vw; animation-delay: 6s;">
+        <img src="assets/images/Screenshot 2025-08-22 122833.png" class="photo" style="left: 80vw; animation-delay: 8s;">
+        <img src="assets/images/Screenshot 2025-08-22 122942.png" class="photo" style="left: 15vw; animation-delay: 10s;">
+        <img src="assets/images/Screenshot 2025-08-22 123015.png" class="photo" style="left: 35vw; animation-delay: 12s;">
+        <img src="assets/images/Screenshot 2025-08-22 123036.png" class="photo" style="left: 55vw; animation-delay: 14s;">
+        <img src="assets/images/Screenshot 2025-08-22 123101.png" class="photo" style="left: 75vw; animation-delay: 16s;">
+        <img src="assets/images/Screenshot 2025-08-22 123015.png" class="photo" style="left: 25vw; animation-delay: 18s;">
+    </div>
+
+    <script>
+        const points = document.querySelectorAll('.point');
+        const finalText = document.getElementById('finalMessage');
+        const giftBox = document.getElementById('giftBox');
+        const photos = document.getElementById('photos');
+        const confettiContainer = document.getElementById('confetti-container');
+        const birthdayMusic = document.getElementById('birthdayMusic');
+        const musicControl = document.getElementById('musicControl');
+        const musicIcon = document.getElementById('musicIcon');
+
+        let isPlaying = false; // To track music state
+
+        // --- Sparkle effect ---
+        function createSparkle(x, y) {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'sparkle';
+            const size = Math.random() * 8 + 5; // Random size
+            sparkle.style.width = `${size}px`;
+            sparkle.style.height = `${size}px`;
+            sparkle.style.left = `${x - size / 2}px`;
+            sparkle.style.top = `${y - size / 2}px`;
+            document.body.appendChild(sparkle);
+            sparkle.addEventListener('animationend', () => sparkle.remove());
+        }
+
+        // Add sparkles on gift hover/click
+        giftBox.addEventListener('mousemove', (e) => {
+            if (!isPlaying) { // Only sparkle before click
+                createSparkle(e.clientX, e.clientY);
+            }
+        });
+        // --- End Sparkle effect ---
+
+        // --- Music control ---
+        musicControl.addEventListener('click', () => {
+            if (birthdayMusic.paused) {
+                birthdayMusic.play();
+                musicIcon.src = 'assets/music_on.png'; // Change to 'on' icon
+                isPlaying = true;
+            } else {
+                birthdayMusic.pause();
+                musicIcon.src = 'assets/music_off.png'; // Change to 'off' icon
+                isPlaying = false;
+            }
+        });
+
+        // Autoplay music when the page loads (with user interaction usually required)
+        document.addEventListener('DOMContentLoaded', () => {
+            // Attempt to autoplay, but user gesture might be needed.
+            // A common workaround is to play on first interaction, like clicking the gift.
+            // For now, we'll let the music control handle explicit play.
+        });
+        // --- End Music control ---
+
+
+        // Function to create confetti
+        function createConfetti() {
+            const colors = ['#ffcc00', '#ff4d6d', '#00bfff', '#66cc66', '#9932cc', '#ff69b4'];
+            const confettiCount = 80; // Even more confetti
+            for (let i = 0; i < confettiCount; i++) {
+                let confetti = document.createElement("div");
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.className = `confetti ${randomColor.slice(1)}`;
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.animationDuration = 3 + Math.random() * 3 + "s"; // Faster confetti, more varied
+                confetti.style.animationDelay = Math.random() * 1.5 + "s"; // Stagger start
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        function startSequence() {
+            // Only play music if not already playing or paused
+            if (birthdayMusic.paused) {
+                birthdayMusic.play();
+                musicIcon.src = 'assets/music_on.png';
+                isPlaying = true;
+            }
+
+            giftBox.style.display = 'none';
+            photos.style.display = 'block';
+            createConfetti();
+
+            let delay = 0;
+            points.forEach((point, index) => {
+                setTimeout(() => {
+                    point.classList.add('show');
+                    setTimeout(() => {
+                        point.classList.remove('show');
+                        if (index === points.length - 1) {
+                            showFinalMessage();
+                        }
+                    }, 4000); // Longer time for each point to be visible
+                }, delay);
+                delay += 4500; // Increased delay between points
+            });
+        }
+
+        function showFinalMessage() {
+            finalText.style.display = 'block';
+            // Optional: stop confetti after a delay
+            setTimeout(() => {
+                confettiContainer.innerHTML = ''; // Clear confetti
+            }, 6000); // Clear after 6 seconds
+        }
+
+        // Set the click listener for the gift box
+        giftBox.addEventListener('click', startSequence);
+    </script>
+</body>
+</html>
